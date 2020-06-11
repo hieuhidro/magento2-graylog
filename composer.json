@@ -1,0 +1,26 @@
+{
+    "name": "hidro/module-graylog",
+    "description": "",
+    "version": "1.0.0",
+    "type": "magento2-module",
+    "prefer-stable": true,
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "email": "info@solutiontutorials.com",
+            "name": "Hieu Le"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "graylog2/gelf-php": "~1.5"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Hidro\\Graylog\\": ""
+        }
+    }
+}

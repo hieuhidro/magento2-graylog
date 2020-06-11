@@ -1,0 +1,1 @@
+# magneto2-graylog
