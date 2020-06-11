@@ -1,7 +1,7 @@
 {
     "name": "hidro/module-graylog",
     "description": "",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "type": "magento2-module",
     "prefer-stable": true,
     "license": "GPL-3.0",
