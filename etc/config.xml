@@ -4,6 +4,7 @@
 		<system>
 			<graylog>
 				<enabled/>
+				<facility><![CDATA[Staging]]></facility>
 				<host/>
 				<port/>
 			</graylog>

@@ -49,10 +49,6 @@
  - Console Command
 	- test
 
- - Helper
-	- Hidro\Graylog\Helper\Data
-
-
 ## Attributes
 
 

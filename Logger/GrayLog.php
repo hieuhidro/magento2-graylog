@@ -19,18 +19,12 @@ class GrayLog implements LoggerInterface
      * @var \Gelf\Logger
      */
     protected $_handler;
-    /**
-     * @var string
-     */
-    protected $facility;
 
     protected $objectManager;
     public function __construct(
-        \Magento\Framework\ObjectManagerInterface $objectManager,
-        $facility = 'magento-graylog'
+        \Magento\Framework\ObjectManagerInterface $objectManager
     )
     {
-        $this->facility = $facility;
         $this->objectManager = $objectManager;
     }
 
@@ -39,8 +33,11 @@ class GrayLog implements LoggerInterface
      */
     protected function getHandler(){
         if(!$this->_handler){
+            /**
+             * @var $loggerBuilder \Hidro\Graylog\Logger\GrayLog\LoggerBuilder
+             */
             $loggerBuilder = $this->objectManager->get(\Hidro\Graylog\Logger\GrayLog\LoggerBuilder::class);
-            $this->_handler = $loggerBuilder->prepareHandler($this->facility);
+            $this->_handler = $loggerBuilder->prepareHandler();
             if(null === $this->_handler){
                 $this->_handler = $this->objectManager->get(\Magento\Framework\Logger\Monolog::class);
             }

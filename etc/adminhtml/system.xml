@@ -6,16 +6,20 @@
 				<label>GrayLog</label>
 				<field id="enabled" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
 					<label>Enabled</label>
-					<comment/>
+					<comment>Using graylog</comment>
 					<source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+				</field>
+				<field id="facility" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Environment Name</label>
+					<comment>This option for filter environment on gray log server</comment>
 				</field>
 				<field id="host" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
 					<label>Host</label>
-					<comment/>
+					<comment>Graylog server hosting</comment>
 				</field>
 				<field id="port" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
 					<label>Port</label>
-					<comment/>
+					<comment>Graylog server port</comment>
 				</field>
 			</group>
 		</section>

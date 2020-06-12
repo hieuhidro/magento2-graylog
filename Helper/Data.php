@@ -24,6 +24,9 @@ class Data extends AbstractHelper
         return $this->scopeConfig->getValue(self::XML_GRAYLOG_CONFIG_PREFIX . $path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
+    public function getBaseUrl(){
+        return $this->_getUrl('');
+    }
     /**
      * @return bool
      */
