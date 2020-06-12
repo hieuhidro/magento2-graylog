@@ -1,6 +1,6 @@
 {
     "name": "hidro/module-graylog",
-    "description": "",
+    "description": "Enable Graylog for magento 2",
     "version": "1.0.1",
     "type": "magento2-module",
     "prefer-stable": true,
