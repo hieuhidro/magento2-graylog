@@ -9,6 +9,11 @@
 					<comment>Using graylog</comment>
 					<source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
 				</field>
+				<field id="protocol" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+					<label>Protocol</label>
+					<comment>Internet Protocal type</comment>
+					<source_model>Solutiontutorials\Graylog\Model\Config\Source\Protocol</source_model>
+				</field>
 				<field id="facility" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
 					<label>Environment Name</label>
 					<comment>This option for filter environment on gray log server</comment>

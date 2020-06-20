@@ -11,8 +11,9 @@ namespace Hidro\Graylog\Logger\GrayLog;
 
 use Gelf\Publisher;
 use Gelf\Transport\UdpTransport;
+use Gelf\Transport\TcpTransport;
 use Gelf\Logger;
-
+use Hidro\Graylog\Model\Config\Source\Protocol as GraylogProtocol;
 class LoggerBuilder
 {
 
@@ -94,23 +95,63 @@ class LoggerBuilder
     protected function getServerPort(){
         return $this->getConfig('port');
     }
+    /**
+     * get Transmission Control Protocol
+     * @return int
+     */
+    protected function getTransmissionProtocol(){
+        return $this->getConfig('protocol');
+    }
 
-    protected function getUdpTransport(){
+    /**
+     * @param $host
+     * @param $port
+     * @return \Gelf\Transport\UdpTransport
+     */
+    public function getUdpTransport($host, $port){
+
+        return $this->_objectManager->create(UdpTransport::class, [
+            'host' => $host,
+            'port' => $port,
+            UdpTransport::CHUNK_SIZE_LAN
+        ]);
+    }
+
+    /**
+     * @param string $host
+     * @param integer $port
+     * @param \Gelf\Transport\SslOptions $sslOptions
+     * @return \Gelf\Transport\TcpTransport
+     */
+    public function getTcpTransport($host, $port, $sslOptions = null){
+        return $this->_objectManager->create(TcpTransport::class, [
+            'host' => $host,
+            'port' => $port,
+            'sslOptions' => $sslOptions
+        ]);
+    }
+
+    public function getTransport(){
         $host = $this->getServerHost();
         $port = $this->getServerPort();
-        if($host && $port) {
-            return $this->_objectManager->create(UdpTransport::class, [
-                'host' => $this->getServerHost(),
-                'port' => $this->getServerPort(),
-                UdpTransport::CHUNK_SIZE_LAN
-            ]);
+        $transport = null;
+        if(!empty($host) && !empty($port)) {
+            $protocol = $this->getTransmissionProtocol();
+            switch ($protocol){
+                case GraylogProtocol::UDP_VALUE:
+                    $transport = $this->getUdpTransport($host, $port);
+                    break;
+                default:
+                    $transport = $this->getTcpTransport($host, $port);
+                break;
+            }
         }
-        return null;
+        return $transport;
     }
 
     protected function getPublisher(){
         if(!$this->_publisher) {
-            $transport = $this->getUdpTransport();
+            $transport = $this->_getTransport();
             if($transport) {
                 /**
                  * @var $publisher Publisher

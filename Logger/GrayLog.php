@@ -20,12 +20,19 @@ class GrayLog implements LoggerInterface
      */
     protected $_handler;
 
+    /**
+     * @var \Magento\Framework\Logger\Monolog
+     */
+    protected $_monolog;
+
     protected $objectManager;
+
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager
     )
     {
         $this->objectManager = $objectManager;
+        $this->_monolog = $this->objectManager->get(\Magento\Framework\Logger\Monolog::class);
     }
 
     /**
@@ -39,7 +46,7 @@ class GrayLog implements LoggerInterface
             $loggerBuilder = $this->objectManager->get(\Hidro\Graylog\Logger\GrayLog\LoggerBuilder::class);
             $this->_handler = $loggerBuilder->prepareHandler();
             if(null === $this->_handler){
-                $this->_handler = $this->objectManager->get(\Magento\Framework\Logger\Monolog::class);
+                $this->_handler = $this->_monolog;
             }
         }
         return $this->_handler;
@@ -47,46 +54,82 @@ class GrayLog implements LoggerInterface
 
     public function emergency($message, array $context = array())
     {
-        $this->getHandler()->emergency($message, $context);
+        try {
+            $this->getHandler()->emergency($message, $context);
+        }catch (\Exception $e){
+            $this->_monolog->emergency($message, $context);
+        }
     }
 
     public function alert($message, array $context = array())
     {
-        $this->getHandler()->alert($message, $context);
+        try {
+            $this->getHandler()->alert($message, $context);
+        }catch (\Exception $e){
+            $this->_monolog->alert($message, $context);
+        }
     }
 
     public function critical($message, array $context = array())
     {
-        $this->getHandler()->critical($message, $context);
+        try {
+            $this->getHandler()->critical($message, $context);
+        }catch (\Exception $e){
+            $this->_monolog->critical($message, $context);
+        }
     }
 
     public function error($message, array $context = array())
     {
-        $this->getHandler()->error($message, $context);
+        try {
+            $this->getHandler()->error($message, $context);
+        }catch (\Exception $e){
+            $this->_monolog->error($message, $context);
+        }
     }
 
     public function warning($message, array $context = array())
     {
-        $this->getHandler()->warning($message, $context);
+        try {
+            $this->getHandler()->warning($message, $context);
+        }catch (\Exception $e){
+            $this->_monolog->warning($message, $context);
+        }
     }
 
     public function notice($message, array $context = array())
     {
-        $this->getHandler()->notice($message, $context);
+        try {
+            $this->getHandler()->notice($message, $context);
+        }catch (\Exception $e){
+            $this->_monolog->notice($message, $context);
+        }
     }
 
     public function info($message, array $context = array())
     {
-        $this->getHandler()->info($message, $context);
+        try {
+            $this->getHandler()->info($message, $context);
+        }catch (\Exception $e){
+            $this->_monolog->info($message, $context);
+        }
     }
 
     public function debug($message, array $context = array())
     {
-        $this->getHandler()->debug($message, $context);
+        try {
+            $this->getHandler()->debug($message, $context);
+        }catch (\Exception $e){
+            $this->_monolog->debug($message, $context);
+        }
     }
 
     public function log($level, $message, array $context = array())
     {
-        $this->getHandler()->log($message, $context);
+        try {
+            $this->getHandler()->log($level, $message, $context);
+        }catch (\Exception $e){
+            $this->_monolog->log($level, $message, $context);
+        }
     }
 }
