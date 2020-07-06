@@ -1,4 +1,4 @@
-# Mage2 Module Hidro Graylog
+# Graylog for magento 2 
 
     ``hidro/module-graylog``
 
