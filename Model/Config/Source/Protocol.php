@@ -28,7 +28,7 @@ class Protocol implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         return [
-            ['value' => self::TCP_VALUE, 'label' => __('TCP')],
+//            ['value' => self::TCP_VALUE, 'label' => __('TCP')],
             ['value' => self::UDP_VALUE, 'label' => __('UDP')],
         ];
     }

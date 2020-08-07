@@ -9,14 +9,14 @@
 
 namespace Hidro\Graylog\Logger\GrayLog;
 
-use Gelf\Publisher;
-use Gelf\Transport\UdpTransport;
-use Gelf\Transport\TcpTransport;
 use Gelf\Logger;
+use Gelf\Publisher;
+use Gelf\Transport\TcpTransport;
+use Gelf\Transport\UdpTransport;
 use Hidro\Graylog\Model\Config\Source\Protocol as GraylogProtocol;
+
 class LoggerBuilder
 {
-
     const XML_GRAYLOG_CONFIG_PREFIX = 'system/graylog/';
 
     /**
@@ -51,14 +51,14 @@ class LoggerBuilder
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\ObjectManagerInterface $objectManager
-    )
-    {
+    ) {
         $this->_objectManager = $objectManager;
         $this->scopeConfig = $scopeConfig;
         $this->urlBuilder = $urlBuilder;
     }
 
-    protected function getConfig($path){
+    protected function getConfig($path)
+    {
         return $this->scopeConfig->getValue(self::XML_GRAYLOG_CONFIG_PREFIX . $path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
@@ -77,14 +77,15 @@ class LoggerBuilder
     {
         $facility = $this->getConfig('facility');
         $baseUrl = $this->urlBuilder->getBaseUrl();
-        return $facility?:$baseUrl;
+        return $facility ?: $baseUrl;
     }
 
     /**
      * get config host
      * @return string
      */
-    protected function getServerHost(){
+    protected function getServerHost()
+    {
         return $this->getConfig('host');
     }
 
@@ -92,14 +93,16 @@ class LoggerBuilder
      * get config port
      * @return string
      */
-    protected function getServerPort(){
+    protected function getServerPort()
+    {
         return $this->getConfig('port');
     }
     /**
      * get Transmission Control Protocol
      * @return int
      */
-    protected function getTransmissionProtocol(){
+    protected function getTransmissionProtocol()
+    {
         return $this->getConfig('protocol');
     }
 
@@ -108,8 +111,8 @@ class LoggerBuilder
      * @param $port
      * @return \Gelf\Transport\UdpTransport
      */
-    public function getUdpTransport($host, $port){
-
+    public function getUdpTransport($host, $port)
+    {
         return $this->_objectManager->create(UdpTransport::class, [
             'host' => $host,
             'port' => $port,
@@ -123,7 +126,8 @@ class LoggerBuilder
      * @param \Gelf\Transport\SslOptions $sslOptions
      * @return \Gelf\Transport\TcpTransport
      */
-    public function getTcpTransport($host, $port, $sslOptions = null){
+    public function getTcpTransport($host, $port, $sslOptions = null)
+    {
         return $this->_objectManager->create(TcpTransport::class, [
             'host' => $host,
             'port' => $port,
@@ -131,14 +135,15 @@ class LoggerBuilder
         ]);
     }
 
-    public function getTransport(){
+    public function getTransport()
+    {
         $host = $this->getServerHost();
         $port = $this->getServerPort();
         $transport = null;
-        if(!empty($host) && !empty($port)) {
+        if (!empty($host) && !empty($port)) {
             $protocol = $this->getTransmissionProtocol();
-            switch ($protocol){
-                case GraylogProtocol::UDP_VALUE:
+            switch ($protocol) {
+                case GraylogProtocol::UDP_VALUE :
                     $transport = $this->getUdpTransport($host, $port);
                     break;
                 default:
@@ -149,10 +154,11 @@ class LoggerBuilder
         return $transport;
     }
 
-    protected function getPublisher(){
-        if(!$this->_publisher) {
+    protected function getPublisher()
+    {
+        if (!$this->_publisher) {
             $transport = $this->getTransport();
-            if($transport) {
+            if ($transport) {
                 /**
                  * @var $publisher Publisher
                  */
@@ -168,9 +174,10 @@ class LoggerBuilder
      * @param $facility
      * @return Logger
      */
-    public function prepareHandler($facility = ''){
+    public function prepareHandler($facility = '')
+    {
         $handler = null;
-        if($this->isEnabled()) {
+        if ($this->isEnabled()) {
             try {
                 $publisher = $this->getPublisher();
                 if ($publisher) {
@@ -182,7 +189,7 @@ class LoggerBuilder
                         'facility' => $facility
                     ]);
                 }
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 //Ignore exception.
             }
         }

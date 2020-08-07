@@ -8,10 +8,8 @@
  */
 
 namespace Hidro\Graylog\Logger;
+
 use Psr\Log\LoggerInterface;
-use Psr\Log\InvalidArgumentException;
-use Exception;
-use Gelf\Transport\UdpTransport;
 
 class GrayLog implements LoggerInterface
 {
@@ -29,8 +27,7 @@ class GrayLog implements LoggerInterface
 
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager
-    )
-    {
+    ) {
         $this->objectManager = $objectManager;
         $this->_monolog = $this->objectManager->get(\Magento\Framework\Logger\Monolog::class);
     }
@@ -38,97 +35,98 @@ class GrayLog implements LoggerInterface
     /**
      * @return \Gelf\Logger
      */
-    protected function getHandler(){
-        if(!$this->_handler){
+    protected function getHandler()
+    {
+        if (!$this->_handler) {
             /**
              * @var $loggerBuilder \Hidro\Graylog\Logger\GrayLog\LoggerBuilder
              */
             $loggerBuilder = $this->objectManager->get(\Hidro\Graylog\Logger\GrayLog\LoggerBuilder::class);
             $this->_handler = $loggerBuilder->prepareHandler();
-            if(null === $this->_handler){
+            if (null === $this->_handler) {
                 $this->_handler = $this->_monolog;
             }
         }
         return $this->_handler;
     }
 
-    public function emergency($message, array $context = array())
+    public function emergency($message, array $context = [])
     {
         try {
             $this->getHandler()->emergency($message, $context);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->_monolog->emergency($message, $context);
         }
     }
 
-    public function alert($message, array $context = array())
+    public function alert($message, array $context = [])
     {
         try {
             $this->getHandler()->alert($message, $context);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->_monolog->alert($message, $context);
         }
     }
 
-    public function critical($message, array $context = array())
+    public function critical($message, array $context = [])
     {
         try {
             $this->getHandler()->critical($message, $context);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->_monolog->critical($message, $context);
         }
     }
 
-    public function error($message, array $context = array())
+    public function error($message, array $context = [])
     {
         try {
             $this->getHandler()->error($message, $context);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->_monolog->error($message, $context);
         }
     }
 
-    public function warning($message, array $context = array())
+    public function warning($message, array $context = [])
     {
         try {
             $this->getHandler()->warning($message, $context);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->_monolog->warning($message, $context);
         }
     }
 
-    public function notice($message, array $context = array())
+    public function notice($message, array $context = [])
     {
         try {
             $this->getHandler()->notice($message, $context);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->_monolog->notice($message, $context);
         }
     }
 
-    public function info($message, array $context = array())
+    public function info($message, array $context = [])
     {
         try {
             $this->getHandler()->info($message, $context);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->_monolog->info($message, $context);
         }
     }
 
-    public function debug($message, array $context = array())
+    public function debug($message, array $context = [])
     {
         try {
             $this->getHandler()->debug($message, $context);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->_monolog->debug($message, $context);
         }
     }
 
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = [])
     {
         try {
             $this->getHandler()->log($level, $message, $context);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->_monolog->log($level, $message, $context);
         }
     }
