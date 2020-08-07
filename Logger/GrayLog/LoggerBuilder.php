@@ -151,7 +151,7 @@ class LoggerBuilder
 
     protected function getPublisher(){
         if(!$this->_publisher) {
-            $transport = $this->_getTransport();
+            $transport = $this->getTransport();
             if($transport) {
                 /**
                  * @var $publisher Publisher
@@ -171,15 +171,19 @@ class LoggerBuilder
     public function prepareHandler($facility = ''){
         $handler = null;
         if($this->isEnabled()) {
-            $publisher = $this->getPublisher();
-            if($publisher) {
-                if(!$facility){
-                    $facility = $this->getProjectFacility();
+            try {
+                $publisher = $this->getPublisher();
+                if ($publisher) {
+                    if (!$facility) {
+                        $facility = $this->getProjectFacility();
+                    }
+                    $handler = $this->_objectManager->create(Logger::class, [
+                        'publisher' => $publisher,
+                        'facility' => $facility
+                    ]);
                 }
-                $handler = $this->_objectManager->create(Logger::class, [
-                    'publisher' => $publisher,
-                    'facility' => $facility
-                ]);
+            }catch (\Exception $e){
+                //Ignore exception.
             }
         }
         return $handler;
