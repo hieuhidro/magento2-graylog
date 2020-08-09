@@ -36,7 +36,7 @@ class AbstractHandler
             return $next($record);
         }
         if ($handler instanceof \Hidro\Graylog\Logger\Handler\Graylog) {
-            return true;
+            return $next($record);
         }
         return false;
     }

@@ -32,6 +32,10 @@ class GraylogBuilder
         $this->_configuration = $configuration;
     }
 
+    public function getConfiguration(){
+        return $this->_configuration;
+    }
+
     public function getFacility(){
         return $this->_configuration->getProjectFacility();
     }
