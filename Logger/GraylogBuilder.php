@@ -19,27 +19,15 @@ use Hidro\Graylog\Model\Config\Source\Protocol as GraylogProtocol;
 
 class GraylogBuilder
 {
-    protected $_configuration;
 
     protected $_objectManager;
 
     public function __construct(
-        \Hidro\Graylog\Helper\Configuration $configuration,
         \Magento\Framework\ObjectManagerInterface $objectManager
     )
     {
         $this->_objectManager = $objectManager;
-        $this->_configuration = $configuration;
     }
-
-    public function getConfiguration(){
-        return $this->_configuration;
-    }
-
-    public function getFacility(){
-        return $this->_configuration->getProjectFacility();
-    }
-
     /**
      * @param $host
      * @param $port
@@ -70,73 +58,76 @@ class GraylogBuilder
     }
 
     /**
+     * @param        $host
+     * @param        $port
+     * @param string $protocol
      * @return TcpTransport|UdpTransport|null
      */
-    public function getTransport()
+    public function getTransport($host, $port, $protocol = GraylogProtocol::TCP_VALUE)
     {
         $transport = null;
-        if ($this->_configuration->isEnabled()) {
-            $host = $this->_configuration->getServerHost();
-            $port = $this->_configuration->getServerPort();
-            if (!empty($host) && !empty($port)) {
-                $protocol = $this->getTransmissionProtocol();
-                switch ($protocol) {
-                    case GraylogProtocol::TCP_VALUE :
-                        $transport = $this->getTcpTransport($host, $port);
-                        break;
-                    default:
-                        $transport = $this->getUdpTransport($host, $port);
-                        break;
-                }
+        if (!empty($host) && !empty($port)) {
+            switch ($protocol) {
+                case GraylogProtocol::TCP_VALUE :
+                    $transport = $this->getTcpTransport($host, $port);
+                    break;
+                default:
+                    $transport = $this->getUdpTransport($host, $port);
+                    break;
             }
         }
         return $transport;
     }
 
     /**
+     * @param        $host
+     * @param        $port
+     * @param string $protocol
      * @return Publisher|null
      */
-    public function getPublisher()
+    public function getPublisher($host, $port, $protocol = GraylogProtocol::TCP_VALUE)
     {
         $publisher = null;
-        if ($this->_configuration->isEnabled()) {
-            $transport = $this->getTransport();
-            if ($transport) {
-                /**
-                 * @var $publisher Publisher
-                 */
-                $publisher = $this->_objectManager->get(Publisher::class);
-                $publisher->addTransport($transport);
-            }
+        $transport = $this->getTransport($host, $port, $protocol);
+        if ($transport) {
+            /**
+             * @var $publisher Publisher
+             */
+            $publisher = $this->_objectManager->get(Publisher::class);
+            $publisher->addTransport($transport);
         }
         return $publisher;
     }
 
     /**
-     * @param $facility
-     * @param $defaultContext
+     * @param        $host
+     * @param        $port
+     * @param string $protocol
+     * @param string $facility
+     * @param array  $defaultContext
      * @return Logger
      */
-    public function prepareHandler($facility = '', $defaultContext = array())
+    public function build(
+        $host,
+        $port,
+        $protocol = GraylogProtocol::TCP_VALUE,
+        $facility = '',
+        $defaultContext = array()
+    )
     {
         $handler = null;
-        if ($this->_configuration->isEnabled()) {
-            try {
-                $publisher = $this->getPublisher();
-                if ($publisher) {
-                    if (!$facility) {
-                        $facility = $this->_configuration->getProjectFacility();
-                    }
-                    $handler = $this->_objectManager->create(Logger::class, [
-                        'publisher' => $publisher,
-                        'facility' => $facility,
-                        'defaultContext' => $defaultContext
-                    ]);
-                }
-            } catch (\Exception $e) {
-                //Ignore exception.
-                $handler = null;
+        try {
+            $publisher = $this->getPublisher($host, $port, $protocol);
+            if ($publisher) {
+                $handler = $this->_objectManager->create(Logger::class, [
+                    'publisher' => $publisher,
+                    'facility' => $facility,
+                    'defaultContext' => $defaultContext
+                ]);
             }
+        } catch (\Exception $e) {
+            //Ignore exception.
+            $handler = null;
         }
         return $handler;
     }

@@ -12,11 +12,12 @@
     <type name="Magento\Framework\Logger\Monolog">
         <arguments>
             <argument name="handlers"  xsi:type="array">
-                <item name="graylog" xsi:type="object">\Hidro\Graylog\Logger\Handler\Graylog</item>
+                <item name="graylog" xsi:type="object">Hidro\Graylog\Logger\Handler\Graylog</item>
             </argument>
         </arguments>
     </type>
-    <type name="Monolog\Handler\AbstractHandler">
-        <plugin name="Hidro_Graylog::disable_external_handler" type="\Hidro\Graylog\Handler\AbstractHandler"/>
+    <type name="Monolog\Logger">
+<!--        Update for fix the core Magento 2 issue: https://github.com/magento/magento2/issues/8285 -->
+        <plugin name="Hidro_Graylog::disable_external_handlers" type="\Hidro\Graylog\Plugin\Logger\Monolog"/>
     </type>
 </config>

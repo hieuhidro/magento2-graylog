@@ -9,6 +9,8 @@
 
 namespace Hidro\Graylog\Logger;
 
+use Hidro\Graylog\Helper\Configuration;
+
 class MagentoGrayLog extends \Psr\Log\AbstractLogger
 {
 
@@ -27,14 +29,12 @@ class MagentoGrayLog extends \Psr\Log\AbstractLogger
      */
     protected $defaultContext;
 
-    /**
-     * @var mixed|string
-     */
-    protected $facility;
-
     protected $graylogBuilder;
 
+    protected $configuration;
+
     public function __construct(
+        Configuration $configuration,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Hidro\Graylog\Logger\GraylogBuilder $graylogBuilder,
         $facility = '',
@@ -42,9 +42,9 @@ class MagentoGrayLog extends \Psr\Log\AbstractLogger
     )
     {
         $this->objectManager = $objectManager;
-        $this->facility = $facility ?: $graylogBuilder->getFacility();
         $this->defaultContext = $defaultContext;
         $this->graylogBuilder = $graylogBuilder;
+        $this->configuration = $configuration;
     }
 
     /**
@@ -64,8 +64,15 @@ class MagentoGrayLog extends \Psr\Log\AbstractLogger
      */
     protected function getLogger()
     {
+        $logger = null;
         //If isn't enabled return Monolog
-        $logger = $this->graylogBuilder->prepareHandler($this->facility, $this->defaultContext);
+        if($this->configuration->isEnabled()) {
+            $host = $this->configuration->getServerHost();
+            $port = $this->configuration->getServerPort();
+            $protocol = $this->configuration->getTransmissionProtocol();
+            $facility = $this->configuration->getTransmissionProtocol();
+            $logger = $this->graylogBuilder->build($host, $port, $protocol, $facility, $this->defaultContext);
+        }
         if (null === $logger) {
             $logger = $this->getMonolog();
         }

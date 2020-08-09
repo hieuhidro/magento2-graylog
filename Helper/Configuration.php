@@ -9,13 +9,6 @@
 
 namespace Hidro\Graylog\Helper;
 
-use Gelf\Logger;
-use Gelf\Publisher;
-use Gelf\Transport\TcpTransport;
-use Gelf\Transport\UdpTransport;
-use Hidro\Graylog\Model\Config\Source\Protocol as GraylogProtocol;
-use Magento\Store\Model\ScopeInterface;
-
 class Configuration
 {
     const XML_GRAYLOG_CONFIG_PREFIX = 'system/graylog/';
