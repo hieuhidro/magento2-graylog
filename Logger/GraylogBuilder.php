@@ -23,16 +23,12 @@ class GraylogBuilder
 
     protected $_objectManager;
 
-    protected $_urlBuilder;
-
     public function __construct(
         \Hidro\Graylog\Helper\Configuration $configuration,
-        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\ObjectManagerInterface $objectManager
     )
     {
         $this->_objectManager = $objectManager;
-        $this->_urlBuilder = $urlBuilder;
         $this->_configuration = $configuration;
     }
 
@@ -74,18 +70,20 @@ class GraylogBuilder
      */
     public function getTransport()
     {
-        $host = $this->_configuration->getServerHost();
-        $port = $this->_configuration->getServerPort();
         $transport = null;
-        if (!empty($host) && !empty($port)) {
-            $protocol = $this->getTransmissionProtocol();
-            switch ($protocol) {
-                case GraylogProtocol::TCP_VALUE :
-                    $transport = $this->getTcpTransport($host, $port);
-                    break;
-                default:
-                    $transport = $this->getUdpTransport($host, $port);
-                    break;
+        if ($this->_configuration->isEnabled()) {
+            $host = $this->_configuration->getServerHost();
+            $port = $this->_configuration->getServerPort();
+            if (!empty($host) && !empty($port)) {
+                $protocol = $this->getTransmissionProtocol();
+                switch ($protocol) {
+                    case GraylogProtocol::TCP_VALUE :
+                        $transport = $this->getTcpTransport($host, $port);
+                        break;
+                    default:
+                        $transport = $this->getUdpTransport($host, $port);
+                        break;
+                }
             }
         }
         return $transport;
@@ -97,13 +95,15 @@ class GraylogBuilder
     public function getPublisher()
     {
         $publisher = null;
-        $transport = $this->getTransport();
-        if ($transport) {
-            /**
-             * @var $publisher Publisher
-             */
-            $publisher = $this->_objectManager->get(Publisher::class);
-            $publisher->addTransport($transport);
+        if ($this->_configuration->isEnabled()) {
+            $transport = $this->getTransport();
+            if ($transport) {
+                /**
+                 * @var $publisher Publisher
+                 */
+                $publisher = $this->_objectManager->get(Publisher::class);
+                $publisher->addTransport($transport);
+            }
         }
         return $publisher;
     }
