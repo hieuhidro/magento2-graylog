@@ -42,9 +42,11 @@ class Configuration
      * @param \Magento\Framework\ObjectManagerInterface          $objectManager
      */
     public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\UrlInterface $urlBuilder
     ) {
         $this->scopeConfig = $scopeConfig;
+        $this->urlBuilder = $urlBuilder;
     }
 
     protected function getConfig($path)
