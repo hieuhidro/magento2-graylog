@@ -33,7 +33,7 @@ class Test extends Command
         InputInterface $input,
         OutputInterface $output
     ) {
-        $message = $input->getArgument(self::MESSAGE_ARGUMENT);
+        $message = $input->getArgument(self::MESSAGE_ARGUMENT)?:__("Push test data to gray log server");
         $this->logger->critical($message);
     }
 

@@ -5,7 +5,7 @@
 			<graylog>
 				<enabled/>
 				<facility><![CDATA[Staging]]></facility>
-				<protocol>1</protocol>
+				<protocol>udp</protocol>
 				<host/>
 				<port/>
 			</graylog>

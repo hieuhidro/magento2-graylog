@@ -15,12 +15,12 @@ class Protocol implements \Magento\Framework\Option\ArrayInterface
     /**
      * Transmission Control Protocol.
      */
-    const TCP_VALUE = 0;
+    const TCP_VALUE = 'tcp';
 
     /**
      * User Datagram Protocol.
      */
-    const UDP_VALUE = 1;
+    const UDP_VALUE = 'udp';
 
     /**
      * @return array
@@ -28,7 +28,7 @@ class Protocol implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         return [
-            ['value' => self::TCP_VALUE, 'label' => __('TCP')],
+//            ['value' => self::TCP_VALUE, 'label' => __('TCP')],
             ['value' => self::UDP_VALUE, 'label' => __('UDP')],
         ];
     }
