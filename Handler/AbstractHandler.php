@@ -13,17 +13,18 @@ namespace Hidro\Graylog\Handler;
 class AbstractHandler
 {
     /**
-     * @var \Hidro\Graylog\Helper\Data
+     * @var \Hidro\Graylog\Helper\Configuration
      */
-    protected $_data;
+    protected $_configuration;
 
     public function __construct(
-        \Hidro\Graylog\Helper\Data $data
+        \Hidro\Graylog\Helper\Configuration $configuration
     ) {
-        $this->_data = $data;
+        $this->_configuration = $configuration;
     }
 
     /**
+     * Disable external handling
      * @param $handler
      * @param \Closure $next
      * @param $record
@@ -31,7 +32,7 @@ class AbstractHandler
      */
     public function aroundIsHandling($handler, $next, $record)
     {
-        if (!$this->_data->isDisableExternal()) {
+        if (!$this->_configuration->isDisableExternal()) {
             return $next($record);
         }
         if ($handler instanceof \Hidro\Graylog\Logger\Handler\Graylog) {

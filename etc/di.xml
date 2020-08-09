@@ -7,16 +7,16 @@
 			</argument>
 		</arguments>
 	</type>
-	<preference for="Psr\Log\LoggerInterface" type="Hidro\Graylog\Logger\GrayLog" />
+	<preference for="Psr\Log\LoggerInterface" type="Hidro\Graylog\Logger\MagentoGrayLog"/>
+	<type name="Hidro\Graylog\Logger\MagentoGrayLog" shared="true"/>
     <type name="Magento\Framework\Logger\Monolog">
         <arguments>
-            <argument name="name" xsi:type="string">main</argument>
             <argument name="handlers"  xsi:type="array">
                 <item name="graylog" xsi:type="object">\Hidro\Graylog\Logger\Handler\Graylog</item>
             </argument>
         </arguments>
     </type>
     <type name="Monolog\Handler\AbstractHandler">
-        <plugin name="Hidro_Graylog::disable_all_handler" type="\Hidro\Graylog\Handler\AbstractHandler"/>
+        <plugin name="Hidro_Graylog::disable_external_handler" type="\Hidro\Graylog\Handler\AbstractHandler"/>
     </type>
 </config>

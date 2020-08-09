@@ -2,32 +2,32 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
 	<system>
 		<section id="system">
-			<group id="graylog" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="100" translate="label">
+			<group id="graylog" showInDefault="1" showInStore="0" showInWebsite="1" sortOrder="100" translate="label">
 				<label>GrayLog</label>
-				<field id="enabled" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+				<field id="enabled" showInDefault="1" showInStore="0" showInWebsite="1" sortOrder="10" translate="label" type="select">
 					<label>Enabled</label>
 					<comment>Using graylog</comment>
 					<source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
 				</field>
-                <field id="disable_external" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+                <field id="disable_external" showInDefault="1" showInStore="0" showInWebsite="1" sortOrder="10" translate="label" type="select">
                     <label>Disable External</label>
                     <comment>Disable external logging applications on Magento</comment>
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                 </field>
-				<field id="protocol" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+				<field id="protocol" showInDefault="1" showInStore="0" showInWebsite="1" sortOrder="10" translate="label" type="select">
 					<label>Protocol</label>
 					<comment>Internet Protocal type</comment>
 					<source_model>Hidro\Graylog\Model\Config\Source\Protocol</source_model>
 				</field>
-				<field id="facility" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+				<field id="facility" showInDefault="1" showInStore="0" showInWebsite="1" sortOrder="10" translate="label" type="text">
 					<label>Environment Name</label>
 					<comment>This option for filter environment on gray log server</comment>
 				</field>
-				<field id="host" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+				<field id="host" showInDefault="1" showInStore="0" showInWebsite="1" sortOrder="10" translate="label" type="text">
 					<label>Host</label>
 					<comment>Graylog server hosting</comment>
 				</field>
-				<field id="port" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+				<field id="port" showInDefault="1" showInStore="0" showInWebsite="1" sortOrder="10" translate="label" type="text">
 					<label>Port</label>
 					<comment>Graylog server port</comment>
 				</field>
