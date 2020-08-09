@@ -16,8 +16,8 @@
             </argument>
         </arguments>
     </type>
-    <type name="Monolog\Logger">
-<!--        Update for fix the core Magento 2 issue: https://github.com/magento/magento2/issues/8285 -->
-        <plugin name="Hidro_Graylog::disable_external_handlers" type="\Hidro\Graylog\Plugin\Logger\Monolog"/>
-    </type>
+    <!--        Update for fix the core Magento 2 issue: https://github.com/magento/magento2/issues/8285 -->
+<!--    <type name="Monolog\Logger">-->
+<!--        <plugin name="Hidro_Graylog::disable_external_handlers" type="\Hidro\Graylog\Plugin\Logger\Monolog"/>-->
+<!--    </type>-->
 </config>

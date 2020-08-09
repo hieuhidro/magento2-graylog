@@ -22,9 +22,9 @@ class Monolog
     }
 
     /**
-     * @param $subject
+     * @param \Monolog\Logger $subject
      * @param \Closure $callable
-     * @param $handler
+     * @param \Monolog\Handler\HandlerInterface $handler
      */
     public function aroundPushHandler($subject, $callable, $handler){
         if(!$this->configuration->isEnabled() ||

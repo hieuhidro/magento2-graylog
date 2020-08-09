@@ -9,11 +9,11 @@
 					<comment>Using graylog</comment>
 					<source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
 				</field>
-                <field id="disable_external" showInDefault="1" showInStore="0" showInWebsite="1" sortOrder="10" translate="label" type="select">
-                    <label>Disable External</label>
-                    <comment>Disable external logging applications on Magento</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
-                </field>
+<!--                <field id="disable_external" showInDefault="1" showInStore="0" showInWebsite="1" sortOrder="10" translate="label" type="select">-->
+<!--                    <label>Disable External</label>-->
+<!--                    <comment>Disable external logging applications on Magento</comment>-->
+<!--                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>-->
+<!--                </field>-->
 				<field id="protocol" showInDefault="1" showInStore="0" showInWebsite="1" sortOrder="10" translate="label" type="select">
 					<label>Protocol</label>
 					<comment>Internet Protocal type</comment>
