@@ -38,7 +38,7 @@ class MagentoGrayLog extends \Monolog\Logger
         Configuration $configuration,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Hidro\Graylog\Logger\GraylogBuilder $graylogBuilder,
-        $name,
+        $name = '',
         $facility = '',
         array $defaultContext = array(),
         array $handlers = [],
