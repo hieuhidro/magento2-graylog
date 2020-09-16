@@ -11,7 +11,7 @@ namespace Hidro\Graylog\Logger;
 
 use Hidro\Graylog\Helper\Configuration;
 
-class MagentoGrayLog extends \Psr\Log\AbstractLogger
+class MagentoGrayLog extends \Monolog\Logger
 {
 
     /**
@@ -33,18 +33,22 @@ class MagentoGrayLog extends \Psr\Log\AbstractLogger
 
     protected $configuration;
 
+
     public function __construct(
         Configuration $configuration,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Hidro\Graylog\Logger\GraylogBuilder $graylogBuilder,
+        $name,
         $facility = '',
-        array $defaultContext = array()
-    )
+        array $defaultContext = array(),
+        array $handlers = [],
+        array $processors = [])
     {
         $this->objectManager = $objectManager;
         $this->defaultContext = $defaultContext;
         $this->graylogBuilder = $graylogBuilder;
         $this->configuration = $configuration;
+        parent::__construct($name, $handlers, $processors);
     }
 
     /**
@@ -77,6 +81,18 @@ class MagentoGrayLog extends \Psr\Log\AbstractLogger
             $logger = $this->getMonolog();
         }
         return $logger;
+    }
+    public function addRecord($level, $message, array $context = [])
+    {
+        $message = $message instanceof \Exception ? $message->getMessage() : $message;
+        try {
+            $this->getLogger()->log($level, $message, $context);
+        } catch (\Exception $e) {
+            /**
+             * Use default magneto log if existing exception.
+             */
+            $this->getMonolog()->addRecord($level, $message, $context);
+        }
     }
 
     public function log($level, $rawMessage, array $context = array())
