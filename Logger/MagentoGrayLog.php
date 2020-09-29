@@ -74,7 +74,7 @@ class MagentoGrayLog extends \Monolog\Logger
             $host = $this->configuration->getServerHost();
             $port = $this->configuration->getServerPort();
             $protocol = $this->configuration->getTransmissionProtocol();
-            $facility = $this->configuration->getTransmissionProtocol();
+            $facility = $this->configuration->getProjectFacility();
             $logger = $this->graylogBuilder->build($host, $port, $protocol, $facility, $this->defaultContext);
         }
         if (null === $logger) {
