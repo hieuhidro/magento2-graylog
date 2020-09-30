@@ -7,15 +7,7 @@
 			</argument>
 		</arguments>
 	</type>
-	<preference for="Psr\Log\LoggerInterface" type="Hidro\Graylog\Logger\MagentoGrayLog"/>
-	<type name="Hidro\Graylog\Logger\MagentoGrayLog" shared="true"/>
-    <type name="Magento\Framework\Logger\Monolog">
-        <arguments>
-            <argument name="handlers"  xsi:type="array">
-                <item name="graylog" xsi:type="object">Hidro\Graylog\Logger\Handler\Graylog</item>
-            </argument>
-        </arguments>
-    </type>
+	<preference for="Magento\Framework\Logger\Monolog" type="Hidro\Graylog\Logger\MagentoGrayLog"/>
     <!--        Update for fix the core Magento 2 issue: https://github.com/magento/magento2/issues/8285 -->
 <!--    <type name="Monolog\Logger">-->
 <!--        <plugin name="Hidro_Graylog::disable_external_handlers" type="\Hidro\Graylog\Plugin\Logger\Monolog"/>-->

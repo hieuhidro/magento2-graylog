@@ -11,7 +11,7 @@ namespace Hidro\Graylog\Logger;
 
 use Hidro\Graylog\Helper\Configuration;
 
-class MagentoGrayLog extends \Monolog\Logger
+class MagentoGrayLog extends \Magento\Framework\Logger\Monolog
 {
 
     /**
