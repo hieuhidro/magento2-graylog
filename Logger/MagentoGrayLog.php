@@ -19,6 +19,8 @@ class MagentoGrayLog extends \Magento\Framework\Logger\Monolog
      */
     protected $_monolog;
 
+    private static $logger = null;
+
     /**
      * @var
      */
@@ -33,17 +35,16 @@ class MagentoGrayLog extends \Magento\Framework\Logger\Monolog
 
     protected $configuration;
 
-
     public function __construct(
         Configuration $configuration,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Hidro\Graylog\Logger\GraylogBuilder $graylogBuilder,
         $name = '',
         $facility = '',
-        array $defaultContext = array(),
+        array $defaultContext = [],
         array $handlers = [],
-        array $processors = [])
-    {
+        array $processors = []
+    ) {
         $this->objectManager = $objectManager;
         $this->defaultContext = $defaultContext;
         $this->graylogBuilder = $graylogBuilder;
@@ -62,26 +63,28 @@ class MagentoGrayLog extends \Magento\Framework\Logger\Monolog
         return $this->_monolog;
     }
 
-
     /**
      * @return \Psr\Log\LoggerInterface
      */
     protected function getLogger()
     {
-        $logger = null;
         //If isn't enabled return Monolog
-        if($this->configuration->isEnabled()) {
+        if ($this->configuration->isEnabled()) {
             $host = $this->configuration->getServerHost();
             $port = $this->configuration->getServerPort();
             $protocol = $this->configuration->getTransmissionProtocol();
             $facility = $this->configuration->getProjectFacility();
-            $logger = $this->graylogBuilder->build($host, $port, $protocol, $facility, $this->defaultContext);
+            self::$logger = $this->graylogBuilder->build($host, $port, $protocol, $facility, $this->defaultContext);
         }
-        if (null === $logger) {
-            $logger = $this->getMonolog();
+        if (null === self::$logger) {
+            self::$logger = $this->getMonolog();
         }
-        return $logger;
+        return self::$logger;
     }
+
+    /**
+     * @inheritDoc
+     */
     public function addRecord($level, $message, array $context = [])
     {
         $message = $message instanceof \Exception ? $message->getMessage() : $message;
@@ -95,7 +98,10 @@ class MagentoGrayLog extends \Magento\Framework\Logger\Monolog
         }
     }
 
-    public function log($level, $rawMessage, array $context = array())
+    /**
+     * @inheritDoc
+     */
+    public function log($level, $rawMessage, array $context = [])
     {
         try {
             $this->getLogger()->log($level, $rawMessage, $context);
@@ -103,7 +109,8 @@ class MagentoGrayLog extends \Magento\Framework\Logger\Monolog
             /**
              * Use default magneto log if existing exception.
              */
-            $this->getMonolog()->log($level, $rawMessage, $context);
+            self::$logger = $this->getMonolog();
+            self::$logger->log($level, $rawMessage, $context);
         }
     }
 }

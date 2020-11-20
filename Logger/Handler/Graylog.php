@@ -22,9 +22,17 @@ class Graylog extends \Monolog\Handler\GelfHandler
      */
     protected $graylogBuilder;
 
+    /**
+     * @var
+     */
     protected $facility;
 
+    /**
+     * @var Configuration
+     */
     protected $configuration;
+
+    protected $isAllowed = true;
 
     /**
      * Graylog constructor.
@@ -39,8 +47,8 @@ class Graylog extends \Monolog\Handler\GelfHandler
         Configuration $configuration,
         GraylogBuilder $graylogBuilder,
         $level = Logger::DEBUG,
-        $bubble = true)
-    {
+        $bubble = true
+    ) {
         \Monolog\Handler\AbstractProcessingHandler::__construct($level, $bubble);
         $this->graylogBuilder = $graylogBuilder;
         $this->configuration = $configuration;
@@ -53,13 +61,13 @@ class Graylog extends \Monolog\Handler\GelfHandler
      */
     public function isHandling(array $record)
     {
-        if($this->configuration->isEnabled()) {
-            if(!$this->publisher){
+        if ($this->configuration->isEnabled() && $this->isAllowed) {
+            if (!$this->publisher) {
                 $this->publisher = $this->graylogBuilder->getPublisher(
-                        $this->configuration->getServerHost(),
-                        $this->configuration->getServerPort(),
-                        $this->configuration->getTransmissionProtocol()
-                    );
+                    $this->configuration->getServerHost(),
+                    $this->configuration->getServerPort(),
+                    $this->configuration->getTransmissionProtocol()
+                );
                 $this->facility = $this->configuration->getProjectFacility();
             }
             return true;
@@ -76,5 +84,18 @@ class Graylog extends \Monolog\Handler\GelfHandler
         $messageFormatter = new GelfMessageFormatter();
         $messageFormatter->setFacility($this->facility);
         return $messageFormatter;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function write(array $record)
+    {
+        try {
+            $this->publisher->publish($record['formatted']);
+        } catch (\Exception $e) {
+            //Can't connect the hosting
+            $this->isAllowed = false;
+        }
     }
 }

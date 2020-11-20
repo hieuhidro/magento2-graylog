@@ -95,7 +95,7 @@ class Configuration
      */
     public function getTransmissionProtocol()
     {
-        return $this->getConfig('protocol')?:1;
+        return $this->getConfig('protocol') ?: 1;
     }
 
 

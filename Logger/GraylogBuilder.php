@@ -7,9 +7,7 @@
  * Time: 14:38
  */
 
-
 namespace Hidro\Graylog\Logger;
-
 
 use Gelf\Logger;
 use Gelf\Publisher;
@@ -19,15 +17,13 @@ use Hidro\Graylog\Model\Config\Source\Protocol as GraylogProtocol;
 
 class GraylogBuilder
 {
-
     protected $_objectManager;
 
-    public function __construct(
-        \Magento\Framework\ObjectManagerInterface $objectManager
-    )
+    public function __construct()
     {
-        $this->_objectManager = $objectManager;
+        $this->_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     }
+
     /**
      * @param $host
      * @param $port
@@ -68,7 +64,7 @@ class GraylogBuilder
         $transport = null;
         if (!empty($host) && !empty($port)) {
             switch ($protocol) {
-                case GraylogProtocol::TCP_VALUE :
+                case GraylogProtocol::TCP_VALUE:
                     $transport = $this->getTcpTransport($host, $port);
                     break;
                 default:
@@ -112,9 +108,8 @@ class GraylogBuilder
         $port,
         $protocol = GraylogProtocol::TCP_VALUE,
         $facility = '',
-        $defaultContext = array()
-    )
-    {
+        $defaultContext = []
+    ) {
         $handler = null;
         try {
             $publisher = $this->getPublisher($host, $port, $protocol);
