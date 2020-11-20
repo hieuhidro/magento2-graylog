@@ -69,7 +69,7 @@ class MagentoGrayLog extends \Magento\Framework\Logger\Monolog
     protected function getLogger()
     {
         //If isn't enabled return Monolog
-        if ($this->configuration->isEnabled()) {
+        if ($this->configuration->isEnabled() && null == self::$logger) {
             $host = $this->configuration->getServerHost();
             $port = $this->configuration->getServerPort();
             $protocol = $this->configuration->getTransmissionProtocol();
@@ -94,7 +94,9 @@ class MagentoGrayLog extends \Magento\Framework\Logger\Monolog
             /**
              * Use default magneto log if existing exception.
              */
-            $this->getMonolog()->addRecord($level, $message, $context);
+
+            self::$logger = $this->getMonolog();
+            self::$logger->addRecord($level, $message, $context);
         }
     }
 
