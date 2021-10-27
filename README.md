@@ -1,6 +1,8 @@
 # Graylog for magento 2 
 
-    ``hidro/module-graylog``
+    hidro/module-graylog
+    
+ Packagist: https://packagist.org/packages/hidro/module-graylog
 
  - [Main Functionalities](#markdown-header-main-functionalities)
  - [Installation](#markdown-header-installation)
