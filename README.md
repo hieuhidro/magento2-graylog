@@ -11,6 +11,11 @@
  - [Attributes](#markdown-header-attributes)
 
 
+# More packages: 
+- Core webvital: https://github.com/hieuhidro/core-web-vitals
+- Critical CSS service: https://store.solutiontutorials.com/critical-css-service.html
+
+
 ## Main Functionalities
 
 
@@ -50,6 +55,4 @@
 	- test
 
 ## Attributes
-
-
 
