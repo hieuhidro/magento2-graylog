@@ -85,7 +85,7 @@ class MagentoGrayLog extends \Magento\Framework\Logger\Monolog
     /**
      * @inheritDoc
      */
-    public function addRecord($level, $message, array $context = [])
+    public function addRecord($level, $message, array $context = []): bool
     {
         $message = $message instanceof \Exception ? $message->getMessage() : $message;
         try {
@@ -103,7 +103,7 @@ class MagentoGrayLog extends \Magento\Framework\Logger\Monolog
     /**
      * @inheritDoc
      */
-    public function log($level, $rawMessage, array $context = [])
+    public function log($level, $rawMessage, array $context = []): void
     {
         try {
             $this->getLogger()->log($level, $rawMessage, $context);
