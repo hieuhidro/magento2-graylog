@@ -10,6 +10,7 @@
 namespace Hidro\Graylog\Formatter;
 
 use Monolog\Formatter\GelfMessageFormatter as MonologGelfMessageFormatter;
+use Gelf\Message;
 
 class GelfMessageFormatter extends MonologGelfMessageFormatter
 {
@@ -32,7 +33,7 @@ class GelfMessageFormatter extends MonologGelfMessageFormatter
     }
 
 
-    public function format(array $record)
+    public function format(array $record): Message
     {
         //Update message channel to facility
         if($this->getFacility()) {
