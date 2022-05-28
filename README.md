@@ -1,4 +1,8 @@
-# Graylog for magento 2 
+# Graylog for magento 2, 
+
+Release version pattern:
+- Version format 2.4.x.x (**This pattern for Magento 2.4**). 
+
 
     hidro/module-graylog
     
@@ -55,4 +59,3 @@
 	- test
 
 ## Attributes
-
