@@ -10,6 +10,7 @@
 namespace Hidro\Graylog\Logger;
 
 use Hidro\Graylog\Helper\Configuration;
+use Monolog\DateTimeImmutable;
 
 class MagentoGrayLog extends \Magento\Framework\Logger\Monolog
 {
@@ -85,7 +86,7 @@ class MagentoGrayLog extends \Magento\Framework\Logger\Monolog
     /**
      * @inheritDoc
      */
-    public function addRecord($level, $message, array $context = [])
+    public function addRecord(int $level, string $message, array $context = [], DateTimeImmutable $datetime = null): bool
     {
         $message = $message instanceof \Exception ? $message->getMessage() : $message;
         try {
