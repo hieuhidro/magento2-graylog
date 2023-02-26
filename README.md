@@ -1,4 +1,9 @@
 # Graylog for magento 2 
+
+## By me a coffee:
+- https://patreon.com/solutiontutorials
+- https://paypal.me/hidrole 
+
 Release version pattern:
 - Version pattern: [Magento Version].x.x
 - Ex: Version format 2.4.x.x (**This pattern for Magento 2.4**).
