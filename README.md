@@ -22,7 +22,7 @@ Release version pattern:
 
 # More packages: 
 - Core webvital: https://github.com/hieuhidro/core-web-vitals
-- Checkout my paid version of Magento 2 CWV module: https://store.solutiontutorials.com/magento-2-critical-css.html
+- Checkout my paid version of Magento 2 CWV module: https://store.solutiontutorials.com/magento-2-core-web-vital-critical-css.html
 
 
 ## Main Functionalities
