@@ -13,6 +13,7 @@ namespace Hidro\Graylog\Logger\Handler;
 use Hidro\Graylog\Formatter\GelfMessageFormatter;
 use Hidro\Graylog\Helper\Configuration;
 use Hidro\Graylog\Logger\GraylogBuilder;
+use Monolog\Formatter\FormatterInterface;
 use Monolog\Logger;
 
 class Graylog extends \Monolog\Handler\GelfHandler
@@ -59,7 +60,7 @@ class Graylog extends \Monolog\Handler\GelfHandler
      * @param array $record
      * @return bool
      */
-    public function isHandling(array $record)
+    public function isHandling(array $record): bool
     {
         if ($this->configuration->isEnabled() && $this->isAllowed) {
             if (!$this->publisher) {
@@ -78,7 +79,7 @@ class Graylog extends \Monolog\Handler\GelfHandler
     /**
      * {@inheritDoc}
      */
-    protected function getDefaultFormatter()
+    protected function getDefaultFormatter(): FormatterInterface
     {
         //Update message channel to facility
         $messageFormatter = new GelfMessageFormatter();
@@ -89,7 +90,7 @@ class Graylog extends \Monolog\Handler\GelfHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record)
+    protected function write(array $record): void
     {
         try {
             $this->publisher->publish($record['formatted']);
