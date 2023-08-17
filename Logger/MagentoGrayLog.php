@@ -104,7 +104,7 @@ class MagentoGrayLog extends \Magento\Framework\Logger\Monolog
     /**
      * @inheritDoc
      */
-    public function log($level, $rawMessage, array $context = [])
+    public function log($level, $rawMessage, array $context = []): void
     {
         try {
             $this->getLogger()->log($level, $rawMessage, $context);

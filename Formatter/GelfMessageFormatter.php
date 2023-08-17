@@ -32,7 +32,7 @@ class GelfMessageFormatter extends MonologGelfMessageFormatter
     }
 
 
-    public function format(array $record)
+    public function format(array $record): \Gelf\Message
     {
         //Update message channel to facility
         if($this->getFacility()) {
